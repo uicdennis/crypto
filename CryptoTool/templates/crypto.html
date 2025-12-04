@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crypto Test</title>
+    <script>
+        function updateForm() {
+            var functionSelect = document.getElementById("function");
+            var encryptTitle = document.getElementById("encrypt-title");
+            var encryptModeRadios = document.getElementsByName("mode");
+            var calculateButton = document.getElementById("calculate-button");
+
+            var selectedFunction = functionSelect.value;
+            if (selectedFunction === "AES") {
+                encryptTitle.textContent = "AES Encrypt/Decrypt";
+                encryptModeRadios[0].value = "Encryption";
+                encryptModeRadios[1].value = "Descryption";
+                calculateButton.textContent = "AES Calculate";
+            } else {
+                encryptTitle.textContent = "DES Encrypt/Decrypt";
+                encryptModeRadios[0].value = "Encryption";
+                encryptModeRadios[1].value = "Descryption";
+                calculateButton.textContent = "DES Calculate";
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Crypto Test - Ver. 0.1</h1>
+    <form action="{{ url_for('crypto_test') }}" method="post">
+        <h2>Function</h2>
+        <input type="radio" name="function" id="function" value="XOR" {% if function == 'XOR' %}checked{% endif %} onchange="updateForm()"> XOR
+        <input type="radio" name="function" id="function" value="DES" {% if function == 'DES' %}checked{% endif %} onchange="updateForm()"> DES
+        <input type="radio" name="function" id="function" value="Triple-DES" {% if function == 'Triple-DES' %}checked{% endif %} onchange="updateForm()"> Triple-DES
+        <input type="radio" name="function" id="function" value="DES-MAC" {% if function == 'DES-MAC' %}checked{% endif %} onchange="updateForm()"> DES-MAC
+        <input type="radio" name="function" id="function" value="TDES-MAC" {% if function == 'TDES-MAC' %}checked{% endif %} onchange="updateForm()"> TDES-MAC
+        <input type="radio" name="function" id="function" value="AES" {% if function == 'AES' %}checked{% endif %} onchange="updateForm()"> AES
+
+        <h2><span id="encrypt-title">DES Encrypt/Decrypt</span></h2>
+        <input type="radio" name="mode" value="Encryption" {% if mode == 'Encryption' %}checked{% endif %}> Encryption
+        <input type="radio" name="mode" value="Descryption" {% if mode == 'Descryption' %}checked{% endif %}> Descryption
+
+        <h2>Key</h2>
+        <input type="text" name="key" value="{{ key }}">
+
+        <h2>Data</h2>
+        <input type="text" name="data" value="{{ data }}">
+
+        <button type="submit" id="calculate-button">DES Calculate</button>
+    </form>
+
+    <h2>Result</h2>
+    <p>{{ result }}</p>
+</body>
+</html>
